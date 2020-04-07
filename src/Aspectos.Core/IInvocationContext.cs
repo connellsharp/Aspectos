@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Aspectos
 {
@@ -7,6 +8,10 @@ namespace Aspectos
         object Instance { get; }
 
         string MethodName { get; }
+
+        Task InvokeAsync();
+
+        object ReturnValue { get; }
 
         IEnumerable<IArgument> Arguments { get; }
 

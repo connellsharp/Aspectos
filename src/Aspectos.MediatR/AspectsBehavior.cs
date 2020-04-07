@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
@@ -16,18 +17,8 @@ namespace Aspectos.MediatR
 
         public Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
         {
-            var invocationContext = new MediatrInvocationContext(request);
-            return _aspects.InvokeAsync(next, invocationContext);
-        }
-    }
-
-    internal class MediatrInvocationContext : IInvocationContext
-    {
-        private object context;
-
-        public MediatrInvocationContext(object context)
-        {
-            this.context = context;
+            var invocationContext = new MediatrInvocationContext<TResponse>(request, next);
+            return _aspects.InvokeAsync(invocationContext, cancellationToken);
         }
     }
 }

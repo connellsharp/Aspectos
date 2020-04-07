@@ -13,14 +13,16 @@ namespace Aspectos
             _aspects = aspects;
         }
 
-        public Task<T> InvokeAsync<T>(Func<Task<T>> next, IInvocationContext context)
+        public Task InvokeAsync(IInvocationContext context)
         {
+            Func<Task> invokeAllAsync = context.InvokeAsync;
+
             foreach(var aspect in _aspects)
             {
-                next = () => aspect.InvokeAsync(next, context);
+                invokeAllAsync = () => aspect.InvokeAsync(new AggregateInvocationContext(context, invokeAllAsync));
             }
 
-            return next();
+            return invokeAllAsync();
         }
     }
 }

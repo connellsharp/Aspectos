@@ -12,18 +12,16 @@ namespace Aspectos
             _logger = logger;
         }
 
-        public async Task<T> InvokeAsync<T>(Func<Task<T>> next, IInvocationContext context)
+        public async Task InvokeAsync(IInvocationContext context)
         {
             foreach(var argument in context.Arguments)
             {
-                _logger.AddProperty();
+                
             }
-
-            T result;
 
             try
             {
-                result = await next();
+                await context.InvokeAsync();
             }
             catch
             {
@@ -32,7 +30,6 @@ namespace Aspectos
             }
 
             _logger.LogSuccess(result);
-            return result;
         }
     }
 

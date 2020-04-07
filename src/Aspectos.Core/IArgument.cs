@@ -1,12 +1,11 @@
 ﻿using System;
+using System.Reflection;
 
 namespace Aspectos
 {
     public interface IArgument
     {
-        string ParamName { get; }
-
-        Type ParamType { get; }
+        ParameterInfo Parameter { get; }
 
         object GetValue();
     }
