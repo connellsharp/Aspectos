@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using Aspectos;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -45,5 +46,7 @@ namespace Aspectos.Mvc
         public IEnumerable<IArgument> Arguments => throw new NotImplementedException();
 
         public IEnumerable<IArgument> Extra => throw new NotImplementedException();
+
+        public CancellationToken CancellationToken => CancellationToken.None; // TODO
     }
 }

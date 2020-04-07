@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Aspectos
@@ -24,6 +25,8 @@ namespace Aspectos
         public IEnumerable<IArgument> Arguments => _context.Arguments;
 
         public IEnumerable<IArgument> Extra => _context.Extra;
+
+        public CancellationToken CancellationToken => _context.CancellationToken;
 
         public Task InvokeAsync() => _invokeInnerAsync();
     }

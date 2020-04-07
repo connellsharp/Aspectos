@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Aspectos
@@ -10,6 +11,8 @@ namespace Aspectos
         string MethodName { get; }
 
         Task InvokeAsync();
+
+        CancellationToken CancellationToken { get; }
 
         object ReturnValue { get; }
 

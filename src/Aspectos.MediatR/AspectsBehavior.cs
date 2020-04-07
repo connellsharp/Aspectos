@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 
@@ -15,10 +13,13 @@ namespace Aspectos.MediatR
             _aspects = aspects;
         }
 
-        public Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
+        public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
         {
-            var invocationContext = new MediatrInvocationContext<TResponse>(request, next);
-            return _aspects.InvokeAsync(invocationContext, cancellationToken);
+            var invocationContext = new MediatrInvocationContext<TResponse>(request, cancellationToken, next);
+
+            await _aspects.InvokeAsync(invocationContext);
+
+            return (TResponse)invocationContext.ReturnValue;
         }
     }
 }
