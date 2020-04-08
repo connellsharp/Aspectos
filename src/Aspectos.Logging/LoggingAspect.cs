@@ -14,26 +14,30 @@ namespace Aspectos
 
         public async Task InvokeAsync(IInvocationContext context)
         {
-            foreach(var argument in context.Arguments)
-            {
-                
-            }
+            var logBuilder = _logger.Create(context.Method);
 
             try
             {
-                await context.InvokeAsync();
+                logBuilder.AddArguments(context.Arguments);
+                logBuilder.AddPreStates(context.PreStates);
+
+                try
+                {
+                    await context.InvokeAsync();
+                }
+                catch (Exception ex)
+                {
+                    logBuilder.SetException(ex);
+                    throw;
+                }
+
+                logBuilder.SetReturnValue(context.ReturnValue);
+                logBuilder.AddPostStates(context.PostStates);
             }
-            catch
+            finally
             {
-                _logger.LogException(ex);
-                throw;
+                logBuilder.Write();
             }
-
-            _logger.LogSuccess(result);
         }
-    }
-
-    public interface IMethodLogger
-    {
     }
 }

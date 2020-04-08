@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
@@ -22,16 +23,18 @@ namespace Aspectos.MediatR
 
         public object Instance => throw new NotImplementedException();
 
-        public string MethodName => "Handle";
-
         public async Task InvokeAsync() => _response = await _next();
+
+        public CancellationToken CancellationToken => _cancellationToken;
 
         public object ReturnValue => _response;
 
         public IEnumerable<IArgument> Arguments => throw new NotImplementedException();
 
-        public IEnumerable<IArgument> Extra => throw new NotImplementedException();
+        public MethodInfo Method => throw new NotImplementedException();
 
-        public CancellationToken CancellationToken => _cancellationToken;
+        public IEnumerable<IState> PreStates => throw new NotImplementedException();
+
+        public IEnumerable<IState> PostStates => throw new NotImplementedException();
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -18,13 +19,15 @@ namespace Aspectos
 
         public object Instance => _context.Instance;
 
-        public string MethodName => _context.MethodName;
+        public MethodInfo Method => _context.Method;
 
         public object ReturnValue => _context.ReturnValue;
 
         public IEnumerable<IArgument> Arguments => _context.Arguments;
 
-        public IEnumerable<IArgument> Extra => _context.Extra;
+        public IEnumerable<IState> PreStates => _context.PreStates;
+
+        public IEnumerable<IState> PostStates => _context.PostStates;
 
         public CancellationToken CancellationToken => _context.CancellationToken;
 

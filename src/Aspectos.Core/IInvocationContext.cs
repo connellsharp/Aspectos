@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -8,7 +9,7 @@ namespace Aspectos
     {
         object Instance { get; }
 
-        string MethodName { get; }
+        MethodInfo Method { get; }
 
         Task InvokeAsync();
 
@@ -18,6 +19,8 @@ namespace Aspectos
 
         IEnumerable<IArgument> Arguments { get; }
 
-        IEnumerable<IArgument> Extra { get; }
+        IEnumerable<IState> PreStates { get; }
+
+        IEnumerable<IState> PostStates { get; }
     }
 }
