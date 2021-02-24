@@ -5,9 +5,9 @@ namespace Aspectos.Mvc
 {
     public class AspectsActionFilter : IAsyncActionFilter
     {
-        private readonly IAllAspects _aspects;
+        private readonly IAspect _aspects;
 
-        public AspectsActionFilter(IAllAspects aspects)
+        public AspectsActionFilter(IAspect aspects)
         {
             _aspects = aspects;
         }

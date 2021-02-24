@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -20,10 +21,8 @@ namespace Aspectos.DynamicProxy
 
         public MethodInfo Method => _invocation.Method;
 
-        public object ReturnValue => _invocation.ReturnValue;
-
         public IEnumerable<IArgument> Arguments =>  _invocation.Method.GetParameters()
-                                                        .Zip(_invocation.Arguments, Argument.Create);
+                                                        .Zip(_invocation.Arguments, KnownArgument.Create);
 
         public IEnumerable<IState> PreStates => Enumerable.Empty<IState>();
 
@@ -41,6 +40,19 @@ namespace Aspectos.DynamicProxy
                 return returnedTask;
             
             return Task.CompletedTask;
+        }
+
+        public object ReturnValue
+        {
+            get
+            {
+                var returnValue = _invocation.ReturnValue;
+
+                if(returnValue is Task task)
+                    return task.GetType().GetProperty("Result").GetValue(task);
+
+                return returnValue;
+            }
         }
     }
 }
