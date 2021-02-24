@@ -6,13 +6,14 @@ namespace Aspectos.DynamicProxy.Tests
 {
     internal class TestLogBuilder : IMethodLogBuilder
     {
-        public TestLogBuilder(MethodInfo methodInfo)
+        private ILineWriter _lineWriter;
+
+        public TestLogBuilder(ILineWriter lineWriter, MethodInfo methodInfo)
         {
+            _lineWriter = lineWriter;
         }
 
-        public ICollection<string> Lines { get; } = new List<string>();
-
-        private void WriteLine(string line) => Console.WriteLine(line);
+        private void WriteLine(string line) => _lineWriter.WriteLine(line);
 
         public void AddArguments(IEnumerable<IArgument> arguments)
         {

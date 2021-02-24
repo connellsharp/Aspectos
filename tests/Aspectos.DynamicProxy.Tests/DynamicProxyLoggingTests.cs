@@ -1,12 +1,13 @@
 using Xunit;
 using Castle.DynamicProxy;
+using FluentAssertions;
 
 namespace Aspectos.DynamicProxy.Tests
 {
     public class DynamicProxyLoggingTests
     {
         [Fact]
-        public void ProxiedObjectShouldBehaveTheSameAsNormal()
+        public void ProxiedObjectBehavesTheSameAsNormal()
         {
             TestLogger testLogger = new TestLogger();
             ICalculator calculator = new Calculator();
@@ -14,7 +15,19 @@ namespace Aspectos.DynamicProxy.Tests
 
             var result = calculator.Add(2, 3);
 
-            Assert.Equal(5, result);
+            result.Should().Be(5);
+        }
+        
+        [Fact]
+        public void ProxiedObjectLogsReturnValue()
+        {
+            TestLogger testLogger = new TestLogger();
+            ICalculator calculator = new Calculator();
+            Intercept(ref calculator, new LoggingAspect(testLogger));
+
+            var result = calculator.Add(2, 3);
+
+            testLogger.Lines.Should().ContainInOrder("Return value:", "    5");
         }
 
         private void Intercept<T>(ref T obj, params IAspect[] aspects)
