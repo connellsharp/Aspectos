@@ -1,5 +1,4 @@
-﻿using System;
-using Castle.DynamicProxy;
+﻿using Castle.DynamicProxy;
 
 namespace Aspectos.DynamicProxy
 {
@@ -8,11 +7,9 @@ namespace Aspectos.DynamicProxy
         private static ProxyGenerator ProxyGenerator = new ProxyGenerator();
 
         public static T Apply<T>(T original, params IAspect[] aspects)
-            where T : class
+                    where T : class
         {
-            var interceptor = new AspectsInterceptor(new AggregateAspect(aspects));
-            var proxy = ProxyGenerator.CreateInterfaceProxyWithTarget<T>(original, interceptor);
-            return proxy;
+            return ProxyGenerator.CreateProxyWithAspects<T>(original, aspects);
         }
     }
 }

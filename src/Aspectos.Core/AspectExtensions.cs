@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Aspectos
 {
@@ -8,7 +6,7 @@ namespace Aspectos
     {
         public static void Invoke(this IAspect aspect, IInvocationContext context)
         {
-            aspect.InvokeAsync(context).Wait();
+            aspect.InvokeAsync(context).GetAwaiter().GetResult();
         }
 
         public static AggregateAspect Flatten(this IEnumerable<IAspect> aspects)

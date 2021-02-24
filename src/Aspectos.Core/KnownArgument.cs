@@ -1,15 +1,15 @@
 using System.Reflection;
 
-namespace Aspectos.DynamicProxy
+namespace Aspectos
 {
-    internal class Argument : IArgument
+    public class KnownArgument : IArgument
     {
-        public static Argument Create(ParameterInfo parameter, object value)
+        public static KnownArgument Create(ParameterInfo parameter, object value)
         {
-            return new Argument(parameter, value);
+            return new KnownArgument(parameter, value);
         }
 
-        public Argument(ParameterInfo parameter, object value)
+        public KnownArgument(ParameterInfo parameter, object value)
         {
             Parameter = parameter;
             Value = value;

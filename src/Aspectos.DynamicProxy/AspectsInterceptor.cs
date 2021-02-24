@@ -2,18 +2,18 @@ using Castle.DynamicProxy;
 
 namespace Aspectos.DynamicProxy
 {
-    internal class AspectsInterceptor : IInterceptor
+    internal class AspectInterceptor : IInterceptor
     {
-        private IAllAspects _aspects;
+        private IAspect _aspect;
 
-        public AspectsInterceptor(IAllAspects aspects)
+        public AspectInterceptor(IAspect aspect)
         {
-            _aspects = aspects;
+            _aspect = aspect;
         }
 
         public void Intercept(IInvocation invocation)
         {
-            _aspects.InvokeAsync(new InterceptorInvocationContext(invocation));
+            _aspect.InvokeAsync(new InterceptorInvocationContext(invocation));
         }
     }
 }
