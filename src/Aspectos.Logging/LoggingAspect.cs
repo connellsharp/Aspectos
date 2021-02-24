@@ -25,14 +25,15 @@ namespace Aspectos
                 {
                     await context.InvokeAsync();
                 }
-                catch (Exception ex)
+                catch (Exception exception)
                 {
-                    logBuilder.SetException(ex);
+                    logBuilder.AddPostStates(context.PostStates);
+                    logBuilder.SetException(exception);
                     throw;
                 }
 
-                logBuilder.SetReturnValue(context.ReturnValue);
                 logBuilder.AddPostStates(context.PostStates);
+                logBuilder.SetReturnValue(context.ReturnValue);
             }
             finally
             {

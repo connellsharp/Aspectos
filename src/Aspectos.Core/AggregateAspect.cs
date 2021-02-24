@@ -19,7 +19,8 @@ namespace Aspectos
 
             foreach(var aspect in _aspects)
             {
-                invokeAllAsync = () => aspect.InvokeAsync(new AggregateInvocationContext(context, invokeAllAsync));
+                var invokeInnerAsync = invokeAllAsync;
+                invokeAllAsync = () => aspect.InvokeAsync(new AggregateInvocationContext(context, invokeInnerAsync));
             }
 
             return invokeAllAsync();
